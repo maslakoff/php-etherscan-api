@@ -36,7 +36,7 @@ class Transaction extends AbstractApi
      * @return array
      * @throws \Etherscan\Exception\ErrorException
      */
-    public function getReceiptStatus($transactionHash) {
+    public function getTransactionReceiptStatus($transactionHash) {
         return $this->request->exec([
             'module' => "transaction",
             'action' => "gettxreceiptstatus",
