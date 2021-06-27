@@ -49,5 +49,5 @@ Here the call:
 
 ```php
 $bsc_client = new \Etherscan\Client('Y3U3GMFC8P545CFWRU4TET8MY1K79YDZ3V', EtherscanAPIConf::NET_BSC);
-$bsc_client      ->api('account')->balance('0x43406D1baAE11a950DE734DAE4079A3C9Eb48DAf');
+$bsc_client->api('account')->balance('0x43406D1baAE11a950DE734DAE4079A3C9Eb48DAf');
 ```
