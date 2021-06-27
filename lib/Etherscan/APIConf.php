@@ -17,7 +17,7 @@ class APIConf
     const TESTNET_KOVAN = "api-kovan";
     const TESTNET_RINKEBY = "api-rinkeby";
 
-    const NET_BSCSCAN = 'api-bscscan'; 
+    const NET_BSC = 'api-bscscan'; 
 
     const TAG_LATEST = "latest";
 
@@ -34,7 +34,7 @@ class APIConf
         if (is_null($net)) {
             return self::API_URL;
         }
-        else if($net === self::NET_BSCSCAN) {
+        else if($net === self::NET_BSC) {
             return self::API_URL_BSCSCAN;
         }
 
