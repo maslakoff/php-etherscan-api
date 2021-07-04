@@ -124,6 +124,41 @@ class Account extends AbstractApi
     }
 
     /**
+     * Get a list of "ERC20 - Token Transfer Events" by Address
+     * (Returns up to a maximum of the last 10000 transactions only).
+     *
+     * @param string $address Ether address.
+     * @param int $startBlock Starting blockNo to retrieve results
+     * @param int $endBlock Ending blockNo to retrieve results
+     * @param string $sort 'asc' or 'desc'
+     * @param int $page Page number
+     * @param int $offset Offset
+     *
+     * @return array
+     * @throws ErrorException
+     */
+    public function tokenTransactionListByAddress($address, $startBlock = 0, $endBlock = 99999999, $sort = "asc", $page = null, $offset = null) {
+        $params = [
+            'module' => "account",
+            'action' => "tokentx",
+            'address' => $address,
+            'startblock' => $startBlock,
+            'endblock' => $endBlock,
+            'sort' => $sort
+        ];
+
+        if (!is_null($page)) {
+            $params['page'] = (int)$page;
+        }
+
+        if (!is_null($offset)) {
+            $params['offset'] = (int)$offset;
+        }
+
+        return $this->request->exec($params);
+    }
+
+    /**
      * Get "Internal Transactions" by Transaction Hash.
      *
      * @param string $transactionHash
