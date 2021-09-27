@@ -5,6 +5,7 @@ namespace Etherscan\Api;
 
 use Etherscan\APIConf;
 use Etherscan\Exception\ErrorException;
+use Etherscan\Exception\InvalidArgumentException;
 
 /**
  * Class Account
@@ -40,7 +41,8 @@ class Account extends AbstractApi
      * @return array
      * @throws ErrorException
      */
-    public function balanceMulti($addresses, $tag = APIConf::TAG_LATEST) {
+    public function balanceMulti($addresses, $tag = APIConf::TAG_LATEST)
+    {
         if (is_array($addresses)) {
             $addresses = implode(",", $addresses);
         }
@@ -53,6 +55,41 @@ class Account extends AbstractApi
         ]);
     }
 
+    /**
+     * Get a list of 'Normal' Transactions by Address
+     * (Returns up to a maximum of the last 10000 transactions only).
+     *
+     * @param string $address Ether address.
+     * @param int $startBlock Starting blockNo to retrieve results
+     * @param int $endBlock Ending blockNo to retrieve results
+     * @param string $sort 'asc' or 'desc'
+     * @param int $page Page number
+     * @param int $offset Offset
+     *
+     * @return array
+     * @throws ErrorException
+     */
+    public function transactionListByAddress($address, $startBlock = 0, $endBlock = 99999999, $sort = "asc", $page = null, $offset = null)
+    {
+        $params = [
+            'module' => "account",
+            'action' => "txlist",
+            'address' => $address,
+            'startblock' => $startBlock,
+            'endblock' => $endBlock,
+            'sort' => $sort
+        ];
+
+        if (!is_null($page)) {
+            $params['page'] = (int)$page;
+        }
+
+        if (!is_null($offset)) {
+            $params['offset'] = (int)$offset;
+        }
+
+        return $this->request->exec($params);
+    }
 
     /**
      * Get a list of 'Internal' Transactions by Address
@@ -68,7 +105,8 @@ class Account extends AbstractApi
      * @return array
      * @throws ErrorException
      */
-    public function transactionListInternalByAddress($address, $startBlock = 0, $endBlock = 99999999, $sort = "asc", $page = null, $offset = null) {
+    public function transactionListInternalByAddress($address, $startBlock = 0, $endBlock = 99999999, $sort = "asc", $page = null, $offset = null)
+    {
         $params = [
             'module' => "account",
             'action' => "txlistinternal",
@@ -90,6 +128,106 @@ class Account extends AbstractApi
     }
 
     /**
+     * Get a list of 'ERC20 - Token Transfer Events' by Address
+     *
+     * Usage:
+     *    ERC-20 transfers from an address, specify the address parameter
+     *    ERC-20 transfers from a contract address, specify the contract address parameter
+     *    ERC-20 transfers from an address filtered by a token contract, specify both address and contract address parameters.
+     *
+     * @param string $address representing the address to check for balance
+     * @param int $contractAddress representing the token contract address to check for balance
+     * @param string $sort 'asc' or 'desc'
+     * @param int $page Page number
+     * @param int $offset Offset
+     *
+     * @throws InvalidArgumentException if missed address
+     *
+     * @return array
+     * @throws ErrorException
+     */
+    public function tokenERC20TransferListByAddress($address = null, $contractAddress = null, $sort = "asc", $page = null, $offset = null)
+    {
+        if (is_null($address) && is_null($contractAddress)) {
+            throw new InvalidArgumentException('Please specify at least one address');
+        }
+
+        $params = [
+            'module' => "account",
+            'action' => "tokentx",
+            'sort' => $sort
+        ];
+
+        if (!is_null($address)) {
+            $params['address'] = $address;
+        }
+
+        if (!is_null($contractAddress)) {
+            $params['contractaddress'] = $contractAddress;
+        }
+
+        if (!is_null($page)) {
+            $params['page'] = (int)$page;
+        }
+
+        if (!is_null($offset)) {
+            $params['offset'] = (int)$offset;
+        }
+
+        return $this->request->exec($params);
+    }
+
+    /**
+     * Get a list of 'ERC721 - Token Transfer Events' by Address
+     *
+     * Usage:
+     *    ERC-721 transfers from an address, specify the address parameter
+     *    ERC-721 transfers from a contract address, specify the contract address parameter
+     *    ERC-721 transfers from an address filtered by a token contract, specify both address and contract address parameters.
+     *
+     * @param string $address representing the address to check for balance
+     * @param int $contractAddress representing the token contract address to check for balance
+     * @param string $sort 'asc' or 'desc'
+     * @param int $page Page number
+     * @param int $offset Offset
+     *
+     * @throws InvalidArgumentException if missed address
+     *
+     * @return array
+     * @throws ErrorException
+     */
+    public function tokenERC721TransferListByAddress($address = null, $contractAddress = null, $sort = "asc", $page = null, $offset = null)
+    {
+        if (is_null($address) && is_null($contractAddress)) {
+            throw new InvalidArgumentException('Please specify at least one address');
+        }
+
+        $params = [
+            'module' => "account",
+            'action' => "tokennfttx",
+            'sort' => $sort
+        ];
+
+        if (!is_null($address)) {
+            $params['address'] = $address;
+        }
+
+        if (!is_null($contractAddress)) {
+            $params['contractaddress'] = $contractAddress;
+        }
+
+        if (!is_null($page)) {
+            $params['page'] = (int)$page;
+        }
+
+        if (!is_null($offset)) {
+            $params['offset'] = (int)$offset;
+        }
+
+        return $this->request->exec($params);
+    }
+
+    /**
      * Get "Internal Transactions" by Transaction Hash.
      *
      * @param string $transactionHash
@@ -97,12 +235,46 @@ class Account extends AbstractApi
      * @return array
      * @throws ErrorException
      */
-    public function transactionListInternalByHash($transactionHash) {
+    public function transactionListInternalByHash($transactionHash)
+    {
         return $this->request->exec([
             'module' => "account",
             'action' => "txlistinternal",
             'txhash' => $transactionHash
         ]);
+    }
+
+    /**
+     * Get "Internal Transactions" by Block Range
+     *
+     * @param int $startBlock Starting blockNo to retrieve results
+     * @param int $endBlock Ending blockNo to retrieve results
+     * @param string $sort 'asc' or 'desc'
+     * @param int $page Page number
+     * @param int $offset Offset
+     *
+     * @return array
+     * @throws ErrorException
+     */
+    public function transactionListInternalByBlockRange($startBlock = 0, $endBlock = 99999999, $sort = "asc", $page = null, $offset = null)
+    {
+        $params = [
+            'module' => "account",
+            'action' => "txlistinternal",
+            'startblock' => $startBlock,
+            'endblock' => $endBlock,
+            'sort' => $sort
+        ];
+
+        if (!is_null($page)) {
+            $params['page'] = (int)$page;
+        }
+
+        if (!is_null($offset)) {
+            $params['offset'] = (int)$offset;
+        }
+
+        return $this->request->exec($params);
     }
 
     /**
@@ -116,7 +288,8 @@ class Account extends AbstractApi
      * @return array
      * @throws ErrorException
      */
-    public function getMinedBlocks($address, $blockType = APIConf::BLOCK_TYPE_BLOCKS, $page = null, $offset = null) {
+    public function getMinedBlocks($address, $blockType = APIConf::BLOCK_TYPE_BLOCKS, $page = null, $offset = null)
+    {
         if (!in_array($blockType, APIConf::$blockTypes)) {
             throw new ErrorException("Invalid block type");
         }
@@ -154,8 +327,11 @@ class Account extends AbstractApi
      *
      * @return array
      * @throws ErrorException
+     *
+     * @deprecated deprecated since version 1.0.1
      */
-    public function tokenBalance($tokenIdentifier, $address, $tag = APIConf::TAG_LATEST) {
+    public function tokenBalance($tokenIdentifier, $address, $tag = APIConf::TAG_LATEST)
+    {
         $params = [
             'module' => "account",
             'action' => "tokenbalance",
