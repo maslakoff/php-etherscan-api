@@ -11,6 +11,7 @@ class APIConf
 {
     const API_URL = "https://api.etherscan.io/api";
 
+    const TESTNET_GOERLI = "api-goerli";
     const TESTNET_ROPSTEN = "api-ropsten";
     const TESTNET_KOVAN = "api-kovan";
     const TESTNET_RINKEBY = "api-rinkeby";

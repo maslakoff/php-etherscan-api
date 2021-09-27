@@ -31,6 +31,7 @@ $client->api('account')->balance('0x43406D1baAE11a950DE734DAE4079A3C9Eb48DAf');
 
 Supported:
 
+* goerli
 * ropsten
 * kovan
 * rinkeby
