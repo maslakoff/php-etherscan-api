@@ -16,10 +16,16 @@ class APIConf
     const TESTNET_KOVAN = "api-kovan";
     const TESTNET_RINKEBY = "api-rinkeby";
 
+    const TAG_EARLIEST = "earliest";
     const TAG_LATEST = "latest";
+    const TAG_PENDING = "pending";
 
     const BLOCK_TYPE_BLOCKS = "blocks";
     const BLOCK_TYPE_UNCLES = "uncles";
+
+    public static $blockTypes = [
+        self::BLOCK_TYPE_BLOCKS, self::BLOCK_TYPE_UNCLES
+    ];
 
     /**
      * Returns API URL
@@ -27,7 +33,8 @@ class APIConf
      * @param null $net
      * @return string
      */
-    public static function getAPIUrl($net = null) {
+    public static function getAPIUrl($net = null)
+    {
         if (is_null($net)) {
             return self::API_URL;
         }
