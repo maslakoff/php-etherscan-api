@@ -23,6 +23,9 @@ class APIConf
     const BLOCK_TYPE_BLOCKS = "blocks";
     const BLOCK_TYPE_UNCLES = "uncles";
 
+    const BLOCK_CLOSEST_BEFORE = "before";
+    const BLOCK_CLOSEST_AFTER = "after";
+
     public static $blockTypes = [
         self::BLOCK_TYPE_BLOCKS, self::BLOCK_TYPE_UNCLES
     ];
