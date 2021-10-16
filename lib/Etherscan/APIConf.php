@@ -50,3 +50,6 @@ class APIConf
 
         return "https://{$net}.etherscan.io/api";
     }
+
+}
+
