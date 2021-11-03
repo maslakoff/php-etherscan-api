@@ -30,6 +30,18 @@ class APIConf
         self::BLOCK_TYPE_BLOCKS, self::BLOCK_TYPE_UNCLES
     ];
 
+    const CLIENT_TYPE_GETH = "geth";
+    const CLIENT_TYPE_PARITY = "parity";
+    public static $clientTypes = [
+        self::CLIENT_TYPE_GETH, self::CLIENT_TYPE_PARITY
+    ];
+
+    const SYNC_MODE_DEFAULT = "default";
+    const SYNC_MODE_ARCHIVE = "archive";
+    public static $syncModes = [
+        self::SYNC_MODE_DEFAULT, self::SYNC_MODE_ARCHIVE
+    ];
+
     /**
      * Returns API URL
      *
