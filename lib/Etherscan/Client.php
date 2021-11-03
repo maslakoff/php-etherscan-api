@@ -56,6 +56,10 @@ class Client
             case 'contract':
                 $api = new Api\Contract($this);
                 break;
+                break;
+            case 'gas':
+                $api = new Api\Gas($this);
+                break;
             case 'eventLog':
                 $api = new Api\EventLog($this);
                 break;
