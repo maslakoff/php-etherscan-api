@@ -49,8 +49,7 @@ class Proxy extends AbstractApi
     /**
      * Returns the information about a transaction requested by transaction hash
      *
-     * @param string $tag
-     * @param booelan $full_transaction
+     * @param string $transactionHash
      * 
      * @return array
      * @throws ErrorException
