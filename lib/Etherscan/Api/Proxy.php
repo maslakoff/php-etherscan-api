@@ -45,6 +45,23 @@ class Proxy extends AbstractApi
             'boolean' => $full_transaction
         ]);
     }
+    
+    /**
+     * Returns the information about a transaction requested by transaction hash
+     *
+     * @param string $transactionHash
+     * 
+     * @return array
+     * @throws ErrorException
+     */
+    public function getTransactionByHash($transactionHash)
+    {
+        return $this->request->exec([
+            'module' => "proxy",
+            'action' => "eth_getTransactionByHash",
+            'txhash' => $transactionHash
+        ]);
+    }
 
     /**
      * Returns the number of transactions sent from an address
