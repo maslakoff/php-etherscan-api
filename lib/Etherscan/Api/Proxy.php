@@ -54,7 +54,7 @@ class Proxy extends AbstractApi
      * @return array
      * @throws ErrorException
      */
-    public function transactionByHash($transactionHash)
+    public function getTransactionByHash($transactionHash)
     {
         return $this->request->exec([
             'module' => "proxy",
