@@ -100,6 +100,23 @@ class Proxy extends AbstractApi
     }
 
     /**
+     * Returns the receipt of a transaction by transaction hash
+     *
+     * @param string $transactionHash
+     * 
+     * @return array
+     * @throws ErrorException
+     */
+    public function getTransactionReceipt($transactionHash)
+    {
+        return $this->request->exec([
+            'module' => "proxy",
+            'action' => "eth_getTransactionReceipt",
+            'txhash' => $transactionHash
+        ]);
+    }
+
+    /**
      * Returns the number of most recent block
      *
      * @return array
