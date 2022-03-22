@@ -190,13 +190,15 @@ class Account extends AbstractApi
      * @param string $sort 'asc' or 'desc'
      * @param int $page Page number
      * @param int $offset Offset
+     * @param int $startBlock Starting blockNo to retrieve results
+     * @param int $endBlock Ending blockNo to retrieve results
      *
      * @throws InvalidArgumentException if missed address
      *
      * @return array
      * @throws ErrorException
      */
-    public function tokenERC721TransferListByAddress($address = null, $contractAddress = null, $sort = "asc", $page = null, $offset = null)
+    public function tokenERC721TransferListByAddress($address = null, $contractAddress = null, $sort = "asc", $page = null, $offset = null, $startBlock = 0, $endBlock = 99999999)
     {
         if (is_null($address) && is_null($contractAddress)) {
             throw new InvalidArgumentException('Please specify at least one address');
@@ -205,6 +207,8 @@ class Account extends AbstractApi
         $params = [
             'module' => "account",
             'action' => "tokennfttx",
+            'startblock' => $startBlock,
+            'endblock' => $endBlock,
             'sort' => $sort
         ];
 
