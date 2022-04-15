@@ -351,4 +351,22 @@ class Account extends AbstractApi
 
         return $this->request->exec($params);
     }
+
+    /**
+     * Get Historical Ether Balance for a Single Address By BlockNo
+     *
+     * @param string $address the string representing the address to check for balance
+     * @param string $blockNumber the integer block number to check balance for eg. 12697906​
+     *
+     * @return array
+     * @throws \Etherscan\Exception\ErrorException
+     */
+    public function getBalanceHistory($address, $blockNumber) {
+        return $this->request->exec([
+            'module' => "account",
+            'action' => "balancehistory",
+            'address' => $address,
+            'blockno' => $blockNumber
+        ]);
+    }
 }
