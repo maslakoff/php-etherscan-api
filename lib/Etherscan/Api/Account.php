@@ -146,7 +146,7 @@ class Account extends AbstractApi
      * @return array
      * @throws ErrorException
      */
-    public function tokenERC20TransferListByAddress($address = null, $contractAddress = null, $sort = "asc", $page = null, $offset = null)
+    public function tokenERC20TransferListByAddress($address = null, $contractAddress = null, $sort = "asc", $page = null, $offset = null, $startblock = null, $endblock = null)
     {
         if (is_null($address) && is_null($contractAddress)) {
             throw new InvalidArgumentException('Please specify at least one address');
@@ -172,6 +172,14 @@ class Account extends AbstractApi
 
         if (!is_null($offset)) {
             $params['offset'] = (int)$offset;
+        }
+
+        if (!is_null($startblock)) {
+            $params['startblock'] = (int)$startblock;
+        }
+
+        if (!is_null($endblock)) {
+            $params['endblock'] = (int)$endblock;
         }
 
         return $this->request->exec($params);
