@@ -10,11 +10,14 @@ namespace Etherscan;
 class APIConf
 {
     const API_URL = "https://api.etherscan.io/api";
+    const API_URL_BSCSCAN = 'https://api.bscscan.com/api';
 
     const TESTNET_GOERLI = "api-goerli";
     const TESTNET_ROPSTEN = "api-ropsten";
     const TESTNET_KOVAN = "api-kovan";
     const TESTNET_RINKEBY = "api-rinkeby";
+
+    const NET_BSC = 'api-bscscan'; 
 
     const TAG_EARLIEST = "earliest";
     const TAG_LATEST = "latest";
@@ -53,7 +56,12 @@ class APIConf
         if (is_null($net)) {
             return self::API_URL;
         }
+        else if($net === self::NET_BSC) {
+            return self::API_URL_BSCSCAN;
+        }
 
         return "https://{$net}.etherscan.io/api";
     }
+
 }
+
